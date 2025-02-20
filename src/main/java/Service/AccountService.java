@@ -4,14 +4,20 @@ import Model.Account;
 import DAO.AccountDAO;
 
 public class AccountService {
-    private AccountDAO accountDAO;
+    static AccountDAO accountDAO;
 
     public AccountService(){
         accountDAO = new AccountDAO();
     }
     
 
-    public Account addAccount(Account account){
-        return accountDAO.insertNewAccount(account);
+    public static Account addAccount(Account account){
+        if(account.getUsername() == null || account.getPassword().length() < 4) return null;
+        if(accountDAO.getAccountByUser(account.getUsername()) == null){
+            return accountDAO.insertNewAccount(account);
+        }
+       return null;
     }
+
+
 }
